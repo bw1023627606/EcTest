@@ -1,4 +1,7 @@
 package com.bw.entity;
+
+import java.util.List;
+
 /**
  * 包装的pojo
  * @author bw
@@ -7,6 +10,15 @@ package com.bw.entity;
 public class QueryVo {
 	
 	private User user;
+	private List<Integer> uids;
+	
+	public List<Integer> getUids() {
+		return uids;
+	}
+
+	public void setUids(List<Integer> uids) {
+		this.uids = uids;
+	}
 
 	public User getUser() {
 		return user;
