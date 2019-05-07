@@ -4,6 +4,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.bw.dao.UserDao">
+	<sql id="user_sql">
+		`id`,
+		`username`,
+		`birthday`,
+		`sex`,
+		`address`
+	</sql>
+	<!-- foreach查询 -->
+	<select id="getUserByIdFor" parameterType="QueryVo" resultType="User">
+		SELECT
+		<include refid="user_sql"/>
+		FROM `user`
+		<where>
+			<foreach collection="uids" open="id IN(" item="uId" separator="," close=")">
+				#{uId}
+			</foreach>
+		</where>
+	</select>
+	
 	
 	<!-- 查询 -->
 	<select id="getUserById" parameterType="int" resultType="User">

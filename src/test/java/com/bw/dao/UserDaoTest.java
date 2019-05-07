@@ -2,6 +2,7 @@ package com.bw.dao;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -182,8 +183,33 @@ public class UserDaoTest {
 		} finally {
 		}
 	}
-	
-	
+	@Test
+	public void testGetUserByIdFor() {
+		// 读取全局文件
+		InputStream inputStream;
+		try {
+			inputStream = Resources.getResourceAsStream("userMap.xml");
+			// 创建SqlSessionFactory对象
+			SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+			// 创建SqlSession对象
+			SqlSession sqlSession = sqlSessionFactory.openSession();
+			// 使用sqlSession对象创建UserDao的对象
+			UserDao userDao = sqlSession.getMapper(UserDao.class);
+			//queryVo对象
+			QueryVo qv = new QueryVo();
+			qv.setUids(Arrays.asList(1,20,25,26,29,30));
+			// 调用方法查询
+			List<User> list = userDao.getUserByIdFor(qv);
+			for (User user : list) {
+				System.out.println(user);
+			}
+			// 关闭sqlSession
+			sqlSession.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+		}
+	}
 	@Test
 	public void testGetUserCountByQueryVo() {
 		// 读取全局文件
@@ -211,5 +237,8 @@ public class UserDaoTest {
 		} finally {
 		}
 	}
+	
+	
+	
 	
 }

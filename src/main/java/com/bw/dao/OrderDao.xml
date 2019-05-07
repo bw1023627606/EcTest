@@ -4,13 +4,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.bw.dao.OrderDao">
-	
+
 	<resultMap type="order" id="order_list_map">
-		<id property="id" column="id"/>
-		<result property="userId" column="user_Id"/>
+		<id property="id" column="id" />
+		<result property="userId" column="user_Id" />
 	</resultMap>
-	
-	
+
+	<resultMap type="order" id="order_user_map">
+		<id property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="number" column="number" />
+		<result property="createtime" column="createtime" />
+		<result property="note" column="note" />
+		<!-- 关联表属性 -->
+		<association property="user" javaType="User">
+			<id property="id" column="user_id" />
+			<result property="username" column="username" />
+			<result property="birthday" column="birthday" />
+			<result property="sex" column="sex" />
+			<result property="address" column="address" />
+		</association>
+	</resultMap>
+
+	<!-- 关联表查询 -->
+	<select id="getOrderUser" parameterType="Integer"
+		resultMap="order_user_map">
+		SELECT o.`id`,o.`user_id`,o.`number`,o.`createtime`,o.`note`,
+		u.`id`,u.`username`,u.`sex`,u.`address`,u.`birthday`
+		FROM
+		`order` o,`user` u
+		WHERE o.user_id=u.id AND o.id=#{userId}
+	</select>
+
 	<select id="getOrderList" resultMap="order_list_map">
 		SELECT
 		`id`,
@@ -21,7 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM
 		`order`
 	</select>
-	
-	
-	
+
+
+
 </mapper>

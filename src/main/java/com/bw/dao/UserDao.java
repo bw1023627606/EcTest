@@ -19,4 +19,6 @@ public interface UserDao {
 	List<User> getUserByQueryVo(QueryVo qv);
 	
 	Integer getUserCount();
+	
+	List<User> getUserByIdFor(QueryVo qv);
 }

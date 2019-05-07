@@ -12,7 +12,9 @@ public class Order {
 	private Date createtime;
 
 	private String note;
-
+	
+	private User user;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -51,6 +53,14 @@ public class Order {
 
 	public void setNote(String note) {
 		this.note = note == null ? null : note.trim();
+	}
+	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	@Override

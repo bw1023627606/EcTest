@@ -10,4 +10,10 @@ public interface OrderDao {
 	 * @return
 	 */
 	List<Order> getOrderList();
+	/**
+	 * 关联表一对一
+	 * @param id
+	 * @return
+	 */
+	Order getOrderUser(Integer id);
 }
