@@ -11,6 +11,47 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		`sex`,
 		`address`
 	</sql>
+	
+	
+	<resultMap type="User" id="user_order_map">
+		<id property="id" column="id"/>
+		<result property="username" column="username" />
+		<result property="birthday" column="birthday" />
+		<result property="sex" column="sex" />
+		<result property="address" column="address" />
+		<!-- 一对多 -->
+		<collection property="orders" ofType="Order">
+			<id property="id" column="oid"/>
+			<result property="userId" column="user_id"/>
+			<result property="number" column="number" />
+			<result property="createtime" column="createtime" />
+			<result property="note" column="note" />
+		</collection>
+	</resultMap>
+	
+	<!-- 关联表查询一个用户 -->
+	<select id="getUserOrder" parameterType="Integer"
+		resultMap="user_order_map">
+		SELECT 
+		u.`id`,u.`username`,u.`sex`,u.`address`,u.`birthday`,
+		o.`id` oid,o.`user_id`,o.`number`,o.`createtime`,o.`note`
+		FROM
+		`order` o,`user` u
+		WHERE o.user_id=u.id AND u.id=#{userId}
+	</select>
+	
+	
+	<!-- 关联表查询所有用户订单 -->
+	<select id="getUserOrderAll" resultMap="user_order_map">
+		SELECT 
+		u.`id`,u.`username`,u.`sex`,u.`address`,u.`birthday`,
+		o.`id` oid,o.`user_id`,o.`number`,o.`createtime`,o.`note`
+		FROM
+		`order` o,`user` u
+		WHERE o.user_id=u.id
+	</select>
+	
+	
 	<!-- foreach查询 -->
 	<select id="getUserByIdFor" parameterType="QueryVo" resultType="User">
 		SELECT

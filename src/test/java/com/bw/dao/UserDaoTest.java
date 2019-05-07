@@ -12,6 +12,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.Test;
 
+import com.bw.entity.Order;
 import com.bw.entity.QueryVo;
 import com.bw.entity.User;
 
@@ -238,6 +239,62 @@ public class UserDaoTest {
 		}
 	}
 	
+	@Test
+	public void testGetUserOrder() {
+		// 读取全局文件
+		InputStream inputStream;
+		try {
+			inputStream = Resources.getResourceAsStream("userMap.xml");
+			// 创建SqlSessionFactory对象
+			SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+			// 创建SqlSession对象
+			SqlSession sqlSession = sqlSessionFactory.openSession();
+			// 使用sqlSession对象创建UserDao的对象
+			UserDao userDao = sqlSession.getMapper(UserDao.class);
+			// 调用方法查询
+			User user = userDao.getUserOrder(25);
+			System.out.println(user);
+			for (Order order : user.getOrders()) {
+				System.out.println(order);
+			}
+			// 关闭sqlSession
+			sqlSession.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+		}
+	}
+	
+	
+	@Test
+	public void testGetUserOrderAll() {
+		// 读取全局文件
+		InputStream inputStream;
+		try {
+			inputStream = Resources.getResourceAsStream("userMap.xml");
+			// 创建SqlSessionFactory对象
+			SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+			// 创建SqlSession对象
+			SqlSession sqlSession = sqlSessionFactory.openSession();
+			// 使用sqlSession对象创建UserDao的对象
+			UserDao userDao = sqlSession.getMapper(UserDao.class);
+			// 调用方法查询
+			List<User> users = userDao.getUserOrderAll();
+			for (User user : users) {
+				System.out.println(user);
+				for (Order order : user.getOrders()) {
+					System.out.println("        "+order);
+				}
+			}
+			
+			// 关闭sqlSession
+			sqlSession.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+		}
+
+	}
 	
 	
 	
